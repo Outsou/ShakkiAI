@@ -1,0 +1,5 @@
+O:\visualstuudio\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.dll
+O:\visualstuudio\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.pdb
+O:\visualstuudio\ShakkiAI\ChessAIEngine\obj\Debug\ResolveAssemblyReference.cache
+O:\visualstuudio\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.dll
+O:\visualstuudio\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.pdb
