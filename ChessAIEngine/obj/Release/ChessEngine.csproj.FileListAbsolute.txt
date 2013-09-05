@@ -1,0 +1,10 @@
+H:\Development\ChessGameStarterKit\ChessAIEngine\obj\Release\ResolveAssemblyReference.cache
+H:\Development\ChessGameStarterKit\ChessAIEngine\bin\Release\ChessEngine.dll
+H:\Development\ChessGameStarterKit\ChessAIEngine\bin\Release\ChessEngine.pdb
+H:\Development\ChessGameStarterKit\ChessAIEngine\obj\Release\ChessEngine.dll
+H:\Development\ChessGameStarterKit\ChessAIEngine\obj\Release\ChessEngine.pdb
+E:\Development\ChessGameStarterKit\ChessAIEngine\bin\Release\ChessEngine.dll
+E:\Development\ChessGameStarterKit\ChessAIEngine\bin\Release\ChessEngine.pdb
+E:\Development\ChessGameStarterKit\ChessAIEngine\obj\Release\ResolveAssemblyReference.cache
+E:\Development\ChessGameStarterKit\ChessAIEngine\obj\Release\ChessEngine.dll
+E:\Development\ChessGameStarterKit\ChessAIEngine\obj\Release\ChessEngine.pdb

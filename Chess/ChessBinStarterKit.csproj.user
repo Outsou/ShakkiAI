@@ -1,0 +1,17 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ProjectFiles</ProjectView>
+    <PublishUrlHistory>G:\Publish\ChessBin\|F:\Publish\ChessBin\|F\|H:\Publish\ChessBin\|J:\Publish\ChessBin\</PublishUrlHistory>
+    <InstallUrlHistory>http://www.chessbin.com/Software/ChessBin/Update/</InstallUrlHistory>
+    <SupportUrlHistory>http://www.chessbin.com</SupportUrlHistory>
+    <UpdateUrlHistory>
+    </UpdateUrlHistory>
+    <BootstrapperUrlHistory>
+    </BootstrapperUrlHistory>
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+    <ErrorReportUrlHistory>
+    </ErrorReportUrlHistory>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+  </PropertyGroup>
+</Project>
