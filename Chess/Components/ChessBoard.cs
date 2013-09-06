@@ -29,7 +29,7 @@ namespace Chess.Components
 
         #region Enumerators
 
-        #region Column enum
+        #region Row enum
 
         public enum Column
         {
@@ -142,6 +142,18 @@ namespace Chess.Components
 
             //Clear Source for next Selection             
             currentSource.Selected = false;
+
+            Refresh();
+        }
+
+        public void AIMove()
+        {
+            engine.MovePieceAI();
+
+            if (TurnChanged != null)
+            {
+                TurnChanged(engine.WhoseMove);
+            }
 
             Refresh();
         }
@@ -326,7 +338,7 @@ namespace Chess.Components
                             if (selected)
                             {
                                 selectedX = ((column)*boxHeight) + buffer;
-                                //selectedY = (8 - row - 1)*boxHeight;
+                                //selectedY = (8 - Column - 1)*boxHeight;
 
                                 //selectedX = ((8-column-1) * boxHeight) + buffer;
                                 selectedY = (row) * boxHeight;
@@ -389,7 +401,7 @@ namespace Chess.Components
 
             try
             {
-                //Get Column
+                //Get Row
                 for (int i = 0; i < 8; i++)
                 {
                     if (((i * boxHeight) + 10) < e.Location.X)
@@ -402,7 +414,7 @@ namespace Chess.Components
                     }
                 }
 
-                //Get Row
+                //Get Column
                 for (int i = 0; i < 8; i++)
                 {
                     if (i*boxHeight < e.Location.Y)
@@ -423,7 +435,7 @@ namespace Chess.Components
                 MessageBox.Show(ex.Message, "Error Calculating Selected Column and Row", MessageBoxButtons.OK);
             }
 
-            //Check if row and column are within bounds
+            //Check if Column and column are within bounds
             if (column > 7 || column < 0)
             {
                 return;

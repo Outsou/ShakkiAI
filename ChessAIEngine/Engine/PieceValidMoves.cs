@@ -36,7 +36,7 @@ namespace ChessEngine.Engine
 
             Piece pcAttacked = board.Squares[dstPos].Piece;
 
-            //If there no piece there I can potentialy kill
+            //If there no Piece there I can potentialy kill
             if (pcAttacked == null)
                 return;
 
@@ -45,7 +45,7 @@ namespace ChessEngine.Engine
             {
                 WhiteAttackBoard[dstPos] = true;
 
-                //if that piece is the same color
+                //if that Piece is the same color
                 if (pcAttacked.PieceColor == pcMoving.PieceColor)
                 {
                     pcAttacked.DefendedValue += pcMoving.PieceActionValue;
@@ -69,7 +69,7 @@ namespace ChessEngine.Engine
             {
                 BlackAttackBoard[dstPos] = true;
 
-                //if that piece is the same color
+                //if that Piece is the same color
                 if (pcAttacked.PieceColor == pcMoving.PieceColor)
                 {
                     pcAttacked.DefendedValue += pcMoving.PieceActionValue;
@@ -105,7 +105,7 @@ namespace ChessEngine.Engine
                 BlackAttackBoard[dstPos] = true;
             }
 
-            //If there no piece there I can potentialy kill just add the move and exit
+            //If there no Piece there I can potentialy kill just add the move and exit
             if (board.Squares[dstPos].Piece == null)
             {
                 pcMoving.ValidMoves.Push(dstPos);
@@ -115,7 +115,7 @@ namespace ChessEngine.Engine
 
             Piece pcAttacked = board.Squares[dstPos].Piece;
 
-            //if that piece is a different color
+            //if that Piece is a different color
             if (pcAttacked.PieceColor != pcMoving.PieceColor)
             {
                 pcAttacked.AttackedValue += pcMoving.PieceActionValue;
@@ -139,13 +139,13 @@ namespace ChessEngine.Engine
                 }
 
 
-                //We don't continue movement past this piece
+                //We don't continue movement past this Piece
                 return false;
             }
             //Same Color I am defending
             pcAttacked.DefendedValue += pcMoving.PieceActionValue;
 
-            //Since this piece is of my kind I can't move there
+            //Since this Piece is of my kind I can't move there
             return false;
         }
 
@@ -158,7 +158,7 @@ namespace ChessEngine.Engine
 
                 if (dstPos%8 != srcPosition%8)
                 {
-                    //If there is a piece there I can potentialy kill
+                    //If there is a Piece there I can potentialy kill
                     AnalyzeMovePawn(board, dstPos, pcMoving);
 
                     if (pcMoving.PieceColor == ChessPieceColor.White)

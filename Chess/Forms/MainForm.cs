@@ -112,6 +112,8 @@ namespace Chess.Forms
                 notifyIcon.ShowBalloonTip(1000, @"Black's Turn", @"Black's Turn", ToolTipIcon.Info);
 
                 notifyIcon.Visible = true;
+
+                chessBoard.AIMove();
             }
         }
 

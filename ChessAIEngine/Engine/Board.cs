@@ -711,10 +711,10 @@ namespace ChessEngine.Engine
 
             board.LastMove.MovingPiecePrimary = new PieceMoving(piece.PieceColor, piece.PieceType, piece.Moved, srcPosition, dstPosition);
 
-            //Delete the piece in its source position
+            //Delete the Piece in its source position
             board.Squares[srcPosition].Piece = null;
       
-            //Add the piece to its new position
+            //Add the Piece to its new position
             piece.Moved = true;
             piece.Selected = false;
             board.Squares[dstPosition].Piece = piece;

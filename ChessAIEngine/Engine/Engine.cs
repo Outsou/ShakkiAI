@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ChessEngine.AI;
 
 [assembly: CLSCompliant(true)]
 
@@ -9,6 +10,8 @@ namespace ChessEngine.Engine
     {
         internal Board ChessBoard;
         internal Board PreviousChessBoard;
+
+        internal InterfaceAI AI;
 
         public ChessPieceColor HumanPlayer;
 
@@ -30,6 +33,7 @@ namespace ChessEngine.Engine
 
         private void InitiateBoard(string fen)
         {
+            AI = new AIrandom();
             HumanPlayer = ChessPieceColor.White;    
             ChessBoard = new Board(fen);
             ChessBoard.WhoseMove = ChessPieceColor.White;
@@ -231,6 +235,12 @@ namespace ChessEngine.Engine
 
         }
 
+        public bool MovePieceAI()
+        {
+            AIMove AIMove = AI.GetAIMove(this);
+            return MovePiece(AIMove.SourceColumn, AIMove.SourceRow, AIMove.DestinationColumn, AIMove.DestinationRow);
+        }
+
         private void GenerateValidMoves()
         {
             PieceValidMoves.GenerateValidMoves(ChessBoard);
@@ -240,7 +250,5 @@ namespace ChessEngine.Engine
         {
             return (byte)(BoardColumn + (BoardRow * 8));
         }
-
-   
     }
 }
