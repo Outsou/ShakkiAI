@@ -39,7 +39,7 @@ namespace ChessEngine.AI
 
             while (SquareCount < 64)
             {
-                if (Piece < SquareCount)
+                if (Piece <= SquareCount)
                 {
                     break;
                 }
@@ -60,6 +60,8 @@ namespace ChessEngine.AI
 
             AIMove.DestinationRow = LegalMoves[MoveIndex][1];
             AIMove.DestinationColumn = LegalMoves[MoveIndex][0];
+
+            Console.WriteLine("(" + AIMove.SourceColumn + ", " + AIMove.SourceRow + ")" + "   (" + AIMove.DestinationColumn + ", " + AIMove.DestinationRow + ")" + "\n---------------");
 
             return AIMove;
         }
