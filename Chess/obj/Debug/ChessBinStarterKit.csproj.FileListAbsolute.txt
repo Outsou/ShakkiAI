@@ -1,0 +1,17 @@
+D:\ShakkiAI\Chess\bin\Debug\Chess.exe.manifest
+D:\ShakkiAI\Chess\bin\Debug\Chess.application
+D:\ShakkiAI\Chess\bin\Debug\Chess.exe
+D:\ShakkiAI\Chess\bin\Debug\Chess.pdb
+D:\ShakkiAI\Chess\bin\Debug\ChessEngine.dll
+D:\ShakkiAI\Chess\bin\Debug\ChessEngine.pdb
+D:\ShakkiAI\Chess\obj\Debug\ChessBinStarterKit.csprojResolveAssemblyReference.cache
+D:\ShakkiAI\Chess\obj\Debug\Chess.Forms.About.resources
+D:\ShakkiAI\Chess\obj\Debug\Chess.Components.ChessBoard.resources
+D:\ShakkiAI\Chess\obj\Debug\Chess.Forms.MainForm.resources
+D:\ShakkiAI\Chess\obj\Debug\Chess.Properties.Resources.resources
+D:\ShakkiAI\Chess\obj\Debug\ChessBinStarterKit.csproj.GenerateResource.Cache
+D:\ShakkiAI\Chess\obj\Debug\Chess.exe.manifest
+D:\ShakkiAI\Chess\obj\Debug\Chess.application
+D:\ShakkiAI\Chess\obj\Debug\Chess.exe
+D:\ShakkiAI\Chess\obj\Debug\Chess.pdb
+D:\ShakkiAI\Chess\bin\Debug\Chess.exe.config

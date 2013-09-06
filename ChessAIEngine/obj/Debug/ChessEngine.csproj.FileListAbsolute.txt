@@ -1,0 +1,4 @@
+D:\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.dll
+D:\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.pdb
+D:\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.dll
+D:\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.pdb
