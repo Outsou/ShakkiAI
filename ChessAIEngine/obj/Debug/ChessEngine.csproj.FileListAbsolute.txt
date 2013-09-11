@@ -2,3 +2,8 @@ D:\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.dll
 D:\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.pdb
 D:\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.dll
 D:\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.pdb
+O:\visualstuudio\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.dll
+O:\visualstuudio\ShakkiAI\ChessAIEngine\bin\Debug\ChessEngine.pdb
+O:\visualstuudio\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.csprojResolveAssemblyReference.cache
+O:\visualstuudio\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.dll
+O:\visualstuudio\ShakkiAI\ChessAIEngine\obj\Debug\ChessEngine.pdb

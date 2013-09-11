@@ -146,9 +146,13 @@ namespace Chess.Components
             Refresh();
         }
 
-        public void AIMove()
+        public bool AIMove()
         {
-            engine.MovePieceAI();
+            //If no moves available, return false
+            if (!engine.MovePieceAI())
+            {
+                return false;
+            }
 
             if (TurnChanged != null)
             {
@@ -156,6 +160,18 @@ namespace Chess.Components
             }
 
             Refresh();
+
+            return true;
+        }
+
+        public bool IsBlackChecked()
+        {
+            return engine.IsBlackChecked();
+        }
+
+        public bool IsStalemateBy50MoveRule()
+        {
+            return engine.IsStalemateBy50MoveRule();
         }
 
         public static Column GetColumnFromInt(int column)

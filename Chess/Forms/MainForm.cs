@@ -10,6 +10,9 @@ namespace Chess.Forms
         private TimeSpan blackTime;
         private DateTime turnTick;
         private TimeSpan whiteTime;
+
+        private string staleMate;
+
         public ChessPieceColor WhosMove;
 
      
@@ -23,7 +26,8 @@ namespace Chess.Forms
             turnTick = DateTime.Now;
             blackTime = TimeSpan.Zero;
             whiteTime = TimeSpan.Zero;
-            TurnTimer.Enabled = true;           
+            TurnTimer.Enabled = true;
+            staleMate = "Stalemate";
            
             Opacity = 1;            
         }
@@ -77,11 +81,7 @@ namespace Chess.Forms
 
         private void mnuNew_Click(object sender, EventArgs e)
         {
-            chessBoard.NewGame();
-            
-            turnTick = DateTime.Now;
-            blackTime = TimeSpan.Zero;
-            whiteTime = TimeSpan.Zero;
+            newGame();
         }
 
         private void mnuClose_Click(object sender, EventArgs e)
@@ -91,6 +91,14 @@ namespace Chess.Forms
 
         private void chessBoard_TurnChanged(ChessPieceColor whosMove)
         {
+            //Check if stalemate by too many turns without action
+            if (chessBoard.IsStalemateBy50MoveRule())
+            {
+                MessageBox.Show(staleMate);
+                newGame();
+            }
+
+
             if (whosMove == ChessPieceColor.White)
             {
                 //notifyIcon.Visible = false;
@@ -113,8 +121,30 @@ namespace Chess.Forms
 
                 notifyIcon.Visible = true;
 
-                chessBoard.AIMove();
+                //Check if game is over
+                if (!chessBoard.AIMove())
+                {
+                    if (chessBoard.IsBlackChecked())
+                    {
+                        MessageBox.Show("White won");
+                    }
+                    else
+                    {
+                        MessageBox.Show(staleMate);
+                    }
+
+                    newGame();
+                }
             }
+        }
+
+        private void newGame()
+        {
+            chessBoard.NewGame();
+
+            turnTick = DateTime.Now;
+            blackTime = TimeSpan.Zero;
+            whiteTime = TimeSpan.Zero;
         }
 
     }

@@ -23,7 +23,8 @@ namespace ChessEngine.Engine
 
         public Engine()
         {           
-            InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            //InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            InitiateBoard("4k3/8/8/8/8/8/3Q4/QQQQKQQQ w KQkq - 0 1");
         }
 
         public Engine(string fen)
@@ -238,7 +239,24 @@ namespace ChessEngine.Engine
         public bool MovePieceAI()
         {
             AIMove AIMove = AI.GetAIMove(this);
+
+            //No moves
+            if (AIMove == null)
+            {
+                return false;
+            }
+
             return MovePiece(AIMove.SourceColumn, AIMove.SourceRow, AIMove.DestinationColumn, AIMove.DestinationRow);
+        }
+
+        public bool IsBlackChecked()
+        {
+            return ChessBoard.BlackCheck;
+        }
+
+        public bool IsStalemateBy50MoveRule()
+        {
+            return ChessBoard.StaleMate;
         }
 
         private void GenerateValidMoves()

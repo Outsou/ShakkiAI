@@ -30,6 +30,12 @@ namespace ChessEngine.AI
                 }
             }
 
+            //If piecelist is empty, no moves can be made
+            if (PieceList.Count == 0)
+            {
+                return null;
+            }
+
             //Randomly select Piece
             byte Piece = PieceList[RandomGenerator.Next(0, PieceList.Count)];
 
