@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AIBoardEvaluator.cs" />
+    <Compile Include="AI\AIMinMaxAlfaBeta.cs" />
     <Compile Include="AI\AIMove.cs" />
     <Compile Include="AI\AIrandom.cs" />
     <Compile Include="AI\InterfaceAI.cs" />

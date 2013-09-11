@@ -24,7 +24,9 @@ namespace ChessEngine.Engine
         public Engine()
         {           
             //InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-            InitiateBoard("4k3/8/8/8/8/8/3Q4/QQQQKQQQ w KQkq - 0 1");
+            //InitiateBoard("4k3/8/8/8/8/8/3Q4/QQQQKQQQ w KQkq - 0 1");
+            //InitiateBoard("4k3/8/8/8/8/8/8/3NK3 w KQkq - 0 1");
+            InitiateBoard("8/3k4/8/8/8/8/8/3NK3 w KQkq - 0 1");
         }
 
         public Engine(string fen)
@@ -34,7 +36,8 @@ namespace ChessEngine.Engine
 
         private void InitiateBoard(string fen)
         {
-            AI = new AIrandom();
+            AI = new AIMinMaxAlfaBeta();
+            //AI = new AIrandom();
             HumanPlayer = ChessPieceColor.White;    
             ChessBoard = new Board(fen);
             ChessBoard.WhoseMove = ChessPieceColor.White;
@@ -195,7 +198,7 @@ namespace ChessEngine.Engine
             ChessBoard.Squares[index].Piece.Selected = selection;
         }
 
-        public bool MovePiece(byte sourceColumn, byte sourceRow, byte destinationColumn, byte destinationRow)
+        public bool MovePieceForAI(byte sourceColumn, byte sourceRow, byte destinationColumn, byte destinationRow, bool forAI)
         {
             byte srcPosition = (byte)(sourceColumn + (sourceRow * 8));
             byte dstPosition = (byte)(destinationColumn + (destinationRow * 8));
@@ -203,37 +206,43 @@ namespace ChessEngine.Engine
             Piece piece = ChessBoard.Squares[srcPosition].Piece;
 
             PreviousChessBoard = new Board(ChessBoard);
-            
+
 
             Board.MovePiece(ChessBoard, srcPosition, dstPosition, ChessPieceType.Queen);
 
             PieceValidMoves.GenerateValidMoves(ChessBoard);
-           
 
-            //If there is a check in place, check if this is still true;
-            if (piece.PieceColor == ChessPieceColor.White)
+            if (!forAI)
             {
-                if (ChessBoard.WhiteCheck)
+                //If there is a check in place, check if this is still true;
+                if (piece.PieceColor == ChessPieceColor.White)
                 {
-                    //Invalid Move
-                    ChessBoard = new Board(PreviousChessBoard);
-                    PieceValidMoves.GenerateValidMoves(ChessBoard);
-                    return false;
+                    if (ChessBoard.WhiteCheck)
+                    {
+                        //Invalid Move
+                        ChessBoard = new Board(PreviousChessBoard);
+                        PieceValidMoves.GenerateValidMoves(ChessBoard);
+                        return false;
+                    }
                 }
-            }
-            else if (piece.PieceColor == ChessPieceColor.Black)
-            {
-                if (ChessBoard.BlackCheck)
+                else if (piece.PieceColor == ChessPieceColor.Black)
                 {
-                    //Invalid Move
-                    ChessBoard = new Board(PreviousChessBoard);
-                    PieceValidMoves.GenerateValidMoves(ChessBoard);
-                    return false;
+                    if (ChessBoard.BlackCheck)
+                    {
+                        //Invalid Move
+                        ChessBoard = new Board(PreviousChessBoard);
+                        PieceValidMoves.GenerateValidMoves(ChessBoard);
+                        return false;
+                    }
                 }
             }
 
             return true;
+        }
 
+        public bool MovePiece(byte sourceColumn, byte sourceRow, byte destinationColumn, byte destinationRow)
+        {
+            return MovePieceForAI(sourceColumn, sourceRow, destinationColumn, destinationRow, false);
         }
 
         public bool MovePieceAI()
@@ -259,7 +268,7 @@ namespace ChessEngine.Engine
             return ChessBoard.StaleMate;
         }
 
-        private void GenerateValidMoves()
+        public void GenerateValidMoves()
         {
             PieceValidMoves.GenerateValidMoves(ChessBoard);
         }
