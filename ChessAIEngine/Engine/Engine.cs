@@ -11,7 +11,8 @@ namespace ChessEngine.Engine
         internal Board ChessBoard;
         internal Board PreviousChessBoard;
 
-        internal InterfaceAI AI;
+        internal InterfaceAI AIblack;
+        internal InterfaceAI AIwhite;
 
         public ChessPieceColor HumanPlayer;
 
@@ -23,10 +24,10 @@ namespace ChessEngine.Engine
 
         public Engine()
         {           
-            //InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            InitiateBoard("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
             //InitiateBoard("4k3/8/8/8/8/8/3Q4/QQQQKQQQ w KQkq - 0 1");
             //InitiateBoard("4k3/8/8/8/8/8/8/3NK3 w KQkq - 0 1");
-            InitiateBoard("8/3k4/8/8/8/8/8/3NK3 w KQkq - 0 1");
+            //InitiateBoard("8/3k4/8/8/8/8/8/3NK3 w KQkq - 0 1");
         }
 
         public Engine(string fen)
@@ -36,8 +37,8 @@ namespace ChessEngine.Engine
 
         private void InitiateBoard(string fen)
         {
-            AI = new AIMinMaxAlfaBeta();
-            //AI = new AIrandom();
+            AIblack = new AIMinMaxAlfaBeta();
+            AIwhite = new AIrandom();
             HumanPlayer = ChessPieceColor.White;    
             ChessBoard = new Board(fen);
             ChessBoard.WhoseMove = ChessPieceColor.White;
@@ -187,7 +188,7 @@ namespace ChessEngine.Engine
             {
                 return;
             }
-            //if (ChessBoard.Squares[index].Piece.PieceColor != HumanPlayer)
+            //if (ChessBoard.squares[index].Piece.PieceColor != HumanPlayer)
             //{
             //    return;
             //}
@@ -247,7 +248,15 @@ namespace ChessEngine.Engine
 
         public bool MovePieceAI()
         {
-            AIMove AIMove = AI.GetAIMove(this);
+            AIMove AIMove;
+            if (WhoseMove == ChessPieceColor.Black)
+            {
+                AIMove = AIblack.GetAIMove(this);
+            }
+            else
+            {
+                AIMove = AIwhite.GetAIMove(this);
+            }
 
             //No moves
             if (AIMove == null)
@@ -261,6 +270,11 @@ namespace ChessEngine.Engine
         public bool IsBlackChecked()
         {
             return ChessBoard.BlackCheck;
+        }
+
+        public bool IsWhiteChecked()
+        {
+            return ChessBoard.WhiteCheck;
         }
 
         public bool IsStalemateBy50MoveRule()

@@ -16,10 +16,13 @@ namespace ChessEngine.AI
         public AIMove GetAIMove(Engine.Engine engine)
         {
             bestMove = new AIMove();
-            maxDepth = 2;
+            maxDepth = 5;
             fiftyMove = engine.ChessBoard.FiftyMove;
 
-            MinMaxAflaBeta(maxDepth, -double.MinValue, -Double.MaxValue, engine, ChessPieceColor.Black);
+            double alfa = double.MinValue;
+            double beta = double.MaxValue;
+
+            MaxValue(maxDepth, alfa, beta, engine);
 
             engine.ChessBoard.FiftyMove = fiftyMove;
             engine.ChessBoard.StaleMate = false;
@@ -27,117 +30,130 @@ namespace ChessEngine.AI
             return bestMove;
         }
 
-        private double MinMaxAflaBeta(int depth, double alfa, double beta, ChessEngine.Engine.Engine engine, ChessPieceColor WhoseMove)
+        private double MaxValue(int depth, double alfa, double beta, ChessEngine.Engine.Engine engine)
         {
+            //Debug.WriteLine("old");
+            //debugWrite(engine);
+
             if (depth == 0)
             {
-                return evaluator.ValuateBoard(engine.ChessBoard.Squares);
-            }
-
-            double positionValue = 0.0;
-
-            engine.GenerateValidMoves();
-
-            //Find all pieces that can be moved on this turn
-            List<int> pieceList = new List<int>();
-            Square[] squares = engine.ChessBoard.Squares;
-
-            for (byte i = 0; i < squares.Length; i++)
-            {
-                if (i == 63)
+                double boardValue = evaluator.ValuateBoard(engine.ChessBoard.Squares);
+                if (boardValue == 0)
                 {
                 }
+                //debugWrite(engine);
+                return -boardValue;
+            }
 
-                if (squares[i].Piece != null && squares[i].Piece.PieceColor == WhoseMove && squares[i].Piece.ValidMoves.Count > 0)
+            double v = Double.MinValue;
+
+            //Find all pieces that can be moved on this turn
+            List<int> pieceList = ReturnAllMovablePieces(engine);
+
+            foreach (int piece in pieceList)
+            {
+                foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
                 {
-                    //Debug.WriteLine("" + i + "|" + WhoseMove + "|" +squares[i].Piece.PieceType);
 
-                    if (i == 18 && WhoseMove == ChessPieceColor.Black && squares[i].Piece.PieceType == ChessPieceType.King)
+                    ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
+                    //debugWrite(newState);
+
+                    double oldV = v;
+                    v = Math.Max(v, MinValue(depth-1, alfa, beta, newState));
+
+                    if (v > alfa)
                     {
-                    }
+                        alfa = v;
 
-                    List<byte> moves = new List<byte>();
-                    foreach (byte move in squares[i].Piece.ValidMoves)
-                    {
-                        moves.Add(move);
-                    }
-
-                    foreach (byte move in moves)
-                    {
-                        byte[] sourcePosition = CalculatePiecePosition(i);
-                        byte[] destinationPosition = CalculatePiecePosition(move);
-
-                        ChessPieceColor whoseMove = engine.WhoseMove;
-
-                        //Copy old board
-                        Board oldBoard = engine.ChessBoard.FastCopy();
-                        MoveContent lastMove = engine.ChessBoard.LastMove;
-
-                        //Make move
-                        engine.MovePieceForAI(sourcePosition[0], sourcePosition[1], destinationPosition[0], destinationPosition[1], true);
-                        debugWrite(engine);
-                        if (WhoseMove == ChessPieceColor.Black)
+                        if (depth == maxDepth)
                         {
-                            WhoseMove = ChessPieceColor.White;
+                            byte[] source = CalculatePiecePosition((byte)(piece));
+                            byte[] destination = CalculatePiecePosition(move);
+                            bestMove.SourceColumn = source[0];
+                            bestMove.SourceRow = source[1];
+                            bestMove.DestinationColumn = destination[0];
+                            bestMove.DestinationRow = destination[1];
                         }
                         else
                         {
-                            WhoseMove = ChessPieceColor.Black;
-                        }
-
-
-                        positionValue = -MinMaxAflaBeta(depth - 1, -alfa, -beta, engine, WhoseMove);
-
-                        //Undo move
-                        engine.ChessBoard = oldBoard;
-                        engine.ChessBoard.LastMove = lastMove;
-
-                        if (destinationPosition[0] == 2 && destinationPosition[1] == 3 && sourcePosition[0] == 2 && sourcePosition[1] == 2)
-                        {
-                        }
-
-                        //Debug.WriteLine("" + destinationPosition[0] + destinationPosition[1] + sourcePosition[0] + sourcePosition[1]);
-
-                        debugWrite(engine);
-                        engine.WhoseMove = whoseMove;
-
-                        if (depth == 2)
-                        {
-                        }
-
-                         if (depth == 3)
-                        {
-                        }
-
-                        /*
-                        if (positionValue >= beta)
-                        {
-                            return beta;
-                        }
-                        */
-
-                         if (maxDepth == maxDepth)
-                         {
-                             alfa = -alfa;
-                         }
-
-                        if (positionValue > alfa)
-                        {
-                            alfa = positionValue;
-
-                            if (maxDepth == depth && engine.ChessBoard.Squares[i].Piece.PieceColor != ChessPieceColor.White)
-                            {
-                                bestMove.SourceColumn = sourcePosition[0];
-                                bestMove.SourceRow = sourcePosition[1];
-                                bestMove.DestinationColumn = destinationPosition[0];
-                                bestMove.DestinationRow = destinationPosition[1];
-                            }
-                        }
+                            return v;
+                        }                   
                     }
+
+                    alfa = Math.Max(alfa, v);
                 }
             }
 
-            return alfa;
+            return v;
+        }
+
+        private double MinValue(int depth, double alfa, double beta, ChessEngine.Engine.Engine engine)
+        {
+            //Debug.WriteLine("old");
+            //debugWrite(engine);
+
+            if (depth == 0)
+            {
+                double boardValue = evaluator.ValuateBoard(engine.ChessBoard.Squares);
+                if (boardValue == 0)
+                {
+                }
+                return -boardValue;
+            }
+
+            double v = Double.MaxValue;
+
+            List<int> pieceList = ReturnAllMovablePieces(engine);
+
+            foreach (int piece in pieceList)
+            {
+                foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
+                {
+                    ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
+                    //debugWrite(newState);
+
+                    v = Math.Min(v, MaxValue(depth - 1, alfa, beta, newState));
+
+                    if (v < beta)
+                    {
+                        beta = v;
+                        return v;
+                    }
+
+                    beta = Math.Min(beta, v);
+                }
+            }
+
+            return v;
+        }
+
+        private ChessEngine.Engine.Engine ReturnNewState(ChessEngine.Engine.Engine engine, byte piece, byte move)
+        {
+            ChessEngine.Engine.Engine newState = new Engine.Engine();
+            newState.ChessBoard = new Board(engine.ChessBoard);
+            byte[] sourcePos = CalculatePiecePosition((byte)(piece));
+            byte[] destinationPos = CalculatePiecePosition(move);
+
+            newState.MovePieceForAI(sourcePos[0], sourcePos[1], destinationPos[0], destinationPos[1], true);
+
+            return newState;
+        }
+
+        private List<int> ReturnAllMovablePieces(ChessEngine.Engine.Engine engine)
+        {
+            List<int> pieceList = new List<int>();
+            Square[] squares = engine.ChessBoard.Squares;
+
+            //Find all pieces that can be moved on this turn
+            for (byte i = 0; i < squares.Length; i++)
+            {
+                if (squares[i].Piece != null && squares[i].Piece.PieceColor == engine.WhoseMove && squares[i].Piece.ValidMoves.Count > 0)
+                {
+                    pieceList.Add(i);
+                }
+            }
+
+            return pieceList;
         }
 
         private byte[] CalculatePiecePosition(byte position)
@@ -174,7 +190,14 @@ namespace ChessEngine.AI
 
                 if (square.Piece != null)
                 {
-                    line += square.Piece.PieceType.ToString().Substring(0, 1);
+                    if (square.Piece.PieceType == ChessPieceType.Knight)
+                    {
+                        line += "H";
+                    }
+                    else
+                    {
+                        line += square.Piece.PieceType.ToString().Substring(0, 1);
+                    }
                 }
                 else
                 {

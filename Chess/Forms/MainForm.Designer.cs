@@ -46,6 +46,7 @@ namespace Chess.Forms
             this.lblBlackTime = new System.Windows.Forms.Label();
             this.TurnTimer = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.randomMoveButton = new System.Windows.Forms.ToolStripButton();
             this.MenuStrip.SuspendLayout();
             this.pnlClient.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -57,7 +58,8 @@ namespace Chess.Forms
             this.mnuFile,
             this.toolStripSeparator5,
             this.toolStripSeparator7,
-            this.mnuAbout});
+            this.mnuAbout,
+            this.randomMoveButton});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Size = new System.Drawing.Size(335, 25);
@@ -189,6 +191,16 @@ namespace Chess.Forms
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
+            // randomMoveButton
+            // 
+            this.randomMoveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.randomMoveButton.Image = ((System.Drawing.Image)(resources.GetObject("randomMoveButton.Image")));
+            this.randomMoveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.randomMoveButton.Name = "randomMoveButton";
+            this.randomMoveButton.Size = new System.Drawing.Size(41, 22);
+            this.randomMoveButton.Text = "Move";
+            this.randomMoveButton.Click += new System.EventHandler(this.randomMoveButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,8 +212,8 @@ namespace Chess.Forms
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChessBin.com";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.MenuStrip.ResumeLayout(false);
             this.MenuStrip.PerformLayout();
@@ -231,6 +243,7 @@ namespace Chess.Forms
         private Chess.Components.ChessBoard chessBoard;
         private System.Windows.Forms.Label lblWhiteTime;
         private System.Windows.Forms.Label lblTurn;
+        private System.Windows.Forms.ToolStripButton randomMoveButton;
 
         
     }

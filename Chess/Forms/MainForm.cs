@@ -147,5 +147,22 @@ namespace Chess.Forms
             whiteTime = TimeSpan.Zero;
         }
 
+        private void randomMoveButton_Click(object sender, EventArgs e)
+        {
+            if (!chessBoard.AIMove())
+            {
+                if (chessBoard.IsWhiteChecked())
+                {
+                    MessageBox.Show("Black won");
+                }
+                else
+                {
+                    MessageBox.Show(staleMate);
+                }
+
+                newGame();
+            }
+        }
+
     }
 }

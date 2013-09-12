@@ -169,6 +169,11 @@ namespace Chess.Components
             return engine.IsBlackChecked();
         }
 
+        public bool IsWhiteChecked()
+        {
+            return engine.IsWhiteChecked();
+        }
+
         public bool IsStalemateBy50MoveRule()
         {
             return engine.IsStalemateBy50MoveRule();
