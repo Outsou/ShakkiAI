@@ -16,13 +16,10 @@ namespace ChessEngine.AI
         public AIMove GetAIMove(Engine.Engine engine)
         {
             bestMove = new AIMove();
-            maxDepth = 5;
+            maxDepth = 4;
             fiftyMove = engine.ChessBoard.FiftyMove;
 
-            double alfa = double.MinValue;
-            double beta = double.MaxValue;
-
-            MaxValue(maxDepth, alfa, beta, engine);
+            MaxValue(maxDepth, double.MinValue, double.MaxValue, engine);
 
             engine.ChessBoard.FiftyMove = fiftyMove;
             engine.ChessBoard.StaleMate = false;
@@ -30,100 +27,95 @@ namespace ChessEngine.AI
             return bestMove;
         }
 
-        private double MaxValue(int depth, double alfa, double beta, ChessEngine.Engine.Engine engine)
+        private double MaxValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
-            //Debug.WriteLine("old");
-            //debugWrite(engine);
-
+            //A leaf node, return value of board state
             if (depth == 0)
             {
                 double boardValue = evaluator.ValuateBoard(engine.ChessBoard.Squares);
-                if (boardValue == 0)
-                {
-                }
-                //debugWrite(engine);
-                return -boardValue;
+                return boardValue;
             }
 
-            double v = Double.MinValue;
+            double value = Double.MinValue;
 
             //Find all pieces that can be moved on this turn
             List<int> pieceList = ReturnAllMovablePieces(engine);
 
+            //Go through all possible moves
             foreach (int piece in pieceList)
             {
                 foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
                 {
-
+                    //Create the next board stage and pass it to the next node
                     ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
-                    //debugWrite(newState);
+                    value = Math.Max(value, MinValue(depth-1, alpha, beta, newState));
 
-                    double oldV = v;
-                    v = Math.Max(v, MinValue(depth-1, alfa, beta, newState));
-
-                    if (v > alfa)
+                    //Check if alpha can be given bigger value
+                    if (value > alpha)
                     {
-                        alfa = v;
+                        alpha = value;
 
                         if (depth == maxDepth)
                         {
+                            //Back at the root node with a better move than the previous best
                             byte[] source = CalculatePiecePosition((byte)(piece));
                             byte[] destination = CalculatePiecePosition(move);
                             bestMove.SourceColumn = source[0];
                             bestMove.SourceRow = source[1];
                             bestMove.DestinationColumn = destination[0];
                             bestMove.DestinationRow = destination[1];
-                        }
-                        else
-                        {
-                            return v;
-                        }                   
+                        }               
                     }
 
-                    alfa = Math.Max(alfa, v);
+                    if (alpha > beta)
+                    {
+                        return alpha;
+                    }
+
+                    alpha = Math.Max(alpha, value);
                 }
             }
-
-            return v;
+            return value;
         }
 
-        private double MinValue(int depth, double alfa, double beta, ChessEngine.Engine.Engine engine)
+        private double MinValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
-            //Debug.WriteLine("old");
-            //debugWrite(engine);
-
+            //A leaf node, return value of board state
             if (depth == 0)
             {
                 double boardValue = evaluator.ValuateBoard(engine.ChessBoard.Squares);
-                if (boardValue == 0)
-                {
-                }
-                return -boardValue;
+                return boardValue;
             }
 
             double v = Double.MaxValue;
 
+            //Find all pieces that can be moved on this turn
             List<int> pieceList = ReturnAllMovablePieces(engine);
 
+            //Go through all possible moves
             foreach (int piece in pieceList)
             {
                 foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
                 {
+                    //Create the next board stage and pass it to the next node
                     ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
-                    //debugWrite(newState);
+                    v = Math.Min(v, MaxValue(depth - 1, alpha, beta, newState));
 
-                    v = Math.Min(v, MaxValue(depth - 1, alfa, beta, newState));
-
+                    //Check if beta can be given smaller value
                     if (v < beta)
                     {
-                        beta = v;
-                        return v;
+                        beta = v; 
+                    }
+
+                    //If beta is smaller than alpha, we can return from this branch
+                    if (beta < alpha)
+                    {
+                        return beta;
                     }
 
                     beta = Math.Min(beta, v);
                 }
             }
-
             return v;
         }
 

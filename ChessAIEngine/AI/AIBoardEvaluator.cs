@@ -21,11 +21,11 @@ namespace ChessEngine.AI
 
                     if (square.Piece.PieceColor == ChessPieceColor.White)
                     {
-                        value += pieceValue;
+                        value -= pieceValue;
                     }
                     else
                     {
-                        value -= pieceValue;
+                        value += pieceValue;
                     }
                 }
             }
