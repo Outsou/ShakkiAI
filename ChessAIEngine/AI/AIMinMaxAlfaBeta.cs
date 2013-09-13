@@ -16,7 +16,7 @@ namespace ChessEngine.AI
         public AIMove GetAIMove(Engine.Engine engine)
         {
             bestMove = new AIMove();
-            maxDepth = 4;
+            maxDepth = 2;
             fiftyMove = engine.ChessBoard.FiftyMove;
 
             MaxValue(maxDepth, double.MinValue, double.MaxValue, engine);
@@ -29,6 +29,12 @@ namespace ChessEngine.AI
 
         private double MaxValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
+            //Check if checkmate
+            if (IsCheckMate(engine))
+            {
+                return Double.MinValue;
+            }
+
             //A leaf node, return value of board state
             if (depth == 0)
             {
@@ -78,8 +84,33 @@ namespace ChessEngine.AI
             return value;
         }
 
+        private bool IsCheckMate(Engine.Engine engine)
+        {
+            bool checkmate = false;
+            if ((engine.WhoseMove == ChessPieceColor.Black && engine.IsBlackChecked()) || (engine.WhoseMove == ChessPieceColor.White && engine.IsWhiteChecked()))
+            {
+                checkmate = true;
+
+                foreach (Square square in engine.ChessBoard.Squares)
+                {
+                    if (square.Piece != null && square.Piece.PieceColor == engine.WhoseMove && square.Piece.ValidMoves != null && square.Piece.ValidMoves.Count > 0)
+                    {
+                        checkmate = false;
+                    }
+                }
+            }
+
+            return checkmate;
+        }
+
         private double MinValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
+            //Check if checkmate
+            if (IsCheckMate(engine))
+            {
+                return Double.MaxValue;
+            }
+
             //A leaf node, return value of board state
             if (depth == 0)
             {
