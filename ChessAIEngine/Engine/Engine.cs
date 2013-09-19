@@ -28,6 +28,7 @@ namespace ChessEngine.Engine
             //InitiateBoard("4k3/8/8/8/8/8/3Q4/QQQQKQQQ w KQkq - 0 1");
             //InitiateBoard("4k3/8/8/8/8/8/8/3NK3 w KQkq - 0 1");
             //InitiateBoard("8/3k4/8/8/8/8/8/3NK3 w KQkq - 0 1");
+            //InitiateBoard("7k/8/P7/8/8/8/8/4K8 w KQkq - 0 1");
         }
 
         public Engine(string fen)
@@ -199,7 +200,7 @@ namespace ChessEngine.Engine
             ChessBoard.Squares[index].Piece.Selected = selection;
         }
 
-        public bool MovePieceForAI(byte sourceColumn, byte sourceRow, byte destinationColumn, byte destinationRow, bool forAI)
+        public bool MovePiece(byte sourceColumn, byte sourceRow, byte destinationColumn, byte destinationRow)
         {
             byte srcPosition = (byte)(sourceColumn + (sourceRow * 8));
             byte dstPosition = (byte)(destinationColumn + (destinationRow * 8));
@@ -208,42 +209,33 @@ namespace ChessEngine.Engine
 
             PreviousChessBoard = new Board(ChessBoard);
 
-
             Board.MovePiece(ChessBoard, srcPosition, dstPosition, ChessPieceType.Queen);
 
             PieceValidMoves.GenerateValidMoves(ChessBoard);
 
-            if (!forAI)
+            //If there is a check in place, check if this is still true;
+            if (piece.PieceColor == ChessPieceColor.White)
             {
-                //If there is a check in place, check if this is still true;
-                if (piece.PieceColor == ChessPieceColor.White)
+                if (ChessBoard.WhiteCheck)
                 {
-                    if (ChessBoard.WhiteCheck)
-                    {
-                        //Invalid Move
-                        ChessBoard = new Board(PreviousChessBoard);
-                        PieceValidMoves.GenerateValidMoves(ChessBoard);
-                        return false;
-                    }
+                    //Invalid Move
+                    ChessBoard = new Board(PreviousChessBoard);
+                    PieceValidMoves.GenerateValidMoves(ChessBoard);
+                    return false;
                 }
-                else if (piece.PieceColor == ChessPieceColor.Black)
+            }
+            else if (piece.PieceColor == ChessPieceColor.Black)
+            {
+                if (ChessBoard.BlackCheck)
                 {
-                    if (ChessBoard.BlackCheck)
-                    {
-                        //Invalid Move
-                        ChessBoard = new Board(PreviousChessBoard);
-                        PieceValidMoves.GenerateValidMoves(ChessBoard);
-                        return false;
-                    }
+                    //Invalid Move
+                    ChessBoard = new Board(PreviousChessBoard);
+                    PieceValidMoves.GenerateValidMoves(ChessBoard);
+                    return false;
                 }
             }
 
             return true;
-        }
-
-        public bool MovePiece(byte sourceColumn, byte sourceRow, byte destinationColumn, byte destinationRow)
-        {
-            return MovePieceForAI(sourceColumn, sourceRow, destinationColumn, destinationRow, false);
         }
 
         public bool MovePieceAI()
@@ -290,6 +282,76 @@ namespace ChessEngine.Engine
         private static byte GetBoardIndex(byte BoardColumn, byte BoardRow)
         {
             return (byte)(BoardColumn + (BoardRow * 8));
+        }
+
+        public byte[] CalculateColumnAndRow(byte position)
+        {
+            byte SquareCount = 7;
+            byte Row = 0;
+
+            while (SquareCount < 64)
+            {
+                if (position <= SquareCount)
+                {
+                    break;
+                }
+
+                Row++;
+                SquareCount += 8;
+            }
+
+            byte Column = (byte)(position - Row * 8);
+
+            return new byte[2] { Column, Row };
+        }
+
+        public bool IsCheckMate()
+        {
+            bool checkMate = false;
+
+            if ((IsBlackChecked() && WhoseMove == ChessPieceColor.Black) || (IsWhiteChecked() && WhoseMove == ChessPieceColor.White))
+            {
+                checkMate = true;
+                List<byte> pieceList = new List<byte>();
+                Square[] squares = ChessBoard.Squares;
+                Board oldBoard = new Board(ChessBoard);
+
+                byte[] sourcePos;
+                byte[] destinationPos;
+
+                //Find all pieces that can be moved on this turn
+                for (byte i = 0; i < squares.Length; i++)
+                {
+                    if (squares[i].Piece != null && squares[i].Piece.PieceColor == WhoseMove && squares[i].Piece.ValidMoves.Count > 0)
+                    {
+                        pieceList.Add(i);
+                    }
+                }
+
+                //If piecelist is empty, no moves can be made
+                if (pieceList.Count == 0)
+                {
+                    return false;
+                }
+
+                foreach (byte piece in pieceList)
+                {
+                    sourcePos = CalculateColumnAndRow(piece);
+                    foreach (byte move in squares[piece].Piece.ValidMoves)
+                    {
+                        destinationPos = CalculateColumnAndRow(move);
+
+                        if (MovePiece(sourcePos[0], sourcePos[1], destinationPos[0], destinationPos[1]))
+                        {
+                            ChessBoard = new Board(oldBoard);
+                            PieceValidMoves.GenerateValidMoves(ChessBoard);
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return checkMate;
         }
     }
 }

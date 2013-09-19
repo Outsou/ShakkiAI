@@ -545,6 +545,11 @@ namespace Chess.Components
         }
 
         #endregion
-       
+
+
+        internal bool IsCheckMate()
+        {
+            return engine.IsCheckMate();
+        }
     }
 }

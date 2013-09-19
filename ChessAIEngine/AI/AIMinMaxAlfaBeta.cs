@@ -11,18 +11,19 @@ namespace ChessEngine.AI
         private AIBoardEvaluator evaluator = new AIBoardEvaluator();
         private AIMove bestMove;
         private int maxDepth;
-        byte fiftyMove;
 
         public AIMove GetAIMove(Engine.Engine engine)
         {
             bestMove = new AIMove();
-            maxDepth = 2;
-            fiftyMove = engine.ChessBoard.FiftyMove;
+            maxDepth = 3;
 
             MaxValue(maxDepth, double.MinValue, double.MaxValue, engine);
 
-            engine.ChessBoard.FiftyMove = fiftyMove;
-            engine.ChessBoard.StaleMate = false;
+            //No legal move was found
+            if (bestMove.DestinationColumn == 0 && bestMove.DestinationRow == null && bestMove.SourceColumn == 0 && bestMove.SourceRow == null)
+            {
+                return null;
+            }
 
             return bestMove;
         }
@@ -30,7 +31,7 @@ namespace ChessEngine.AI
         private double MaxValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
             //Check if checkmate
-            if (IsCheckMate(engine))
+            if (engine.IsCheckMate())
             {
                 return Double.MinValue;
             }
@@ -54,6 +55,13 @@ namespace ChessEngine.AI
                 {
                     //Create the next board stage and pass it to the next node
                     ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
+
+                    //Invalid move, continue to next move
+                    if (newState == null)
+                    {
+                        continue;
+                    }
+
                     value = Math.Max(value, MinValue(depth-1, alpha, beta, newState));
 
                     //Check if alpha can be given bigger value
@@ -64,8 +72,8 @@ namespace ChessEngine.AI
                         if (depth == maxDepth)
                         {
                             //Back at the root node with a better move than the previous best
-                            byte[] source = CalculatePiecePosition((byte)(piece));
-                            byte[] destination = CalculatePiecePosition(move);
+                            byte[] source = engine.CalculateColumnAndRow((byte)(piece));
+                            byte[] destination = engine.CalculateColumnAndRow(move);
                             bestMove.SourceColumn = source[0];
                             bestMove.SourceRow = source[1];
                             bestMove.DestinationColumn = destination[0];
@@ -73,40 +81,20 @@ namespace ChessEngine.AI
                         }               
                     }
 
+                    //If alpha is bigger than beta, don't investigate branch further
                     if (alpha > beta)
                     {
                         return alpha;
                     }
-
-                    alpha = Math.Max(alpha, value);
                 }
             }
             return value;
         }
 
-        private bool IsCheckMate(Engine.Engine engine)
-        {
-            bool checkmate = false;
-            if ((engine.WhoseMove == ChessPieceColor.Black && engine.IsBlackChecked()) || (engine.WhoseMove == ChessPieceColor.White && engine.IsWhiteChecked()))
-            {
-                checkmate = true;
-
-                foreach (Square square in engine.ChessBoard.Squares)
-                {
-                    if (square.Piece != null && square.Piece.PieceColor == engine.WhoseMove && square.Piece.ValidMoves != null && square.Piece.ValidMoves.Count > 0)
-                    {
-                        checkmate = false;
-                    }
-                }
-            }
-
-            return checkmate;
-        }
-
         private double MinValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
             //Check if checkmate
-            if (IsCheckMate(engine))
+            if (engine.IsCheckMate())
             {
                 return Double.MaxValue;
             }
@@ -130,6 +118,13 @@ namespace ChessEngine.AI
                 {
                     //Create the next board stage and pass it to the next node
                     ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
+
+                    //Invalid move, continue to next move
+                    if (newState == null)
+                    {
+                        continue;
+                    }
+
                     v = Math.Min(v, MaxValue(depth - 1, alpha, beta, newState));
 
                     //Check if beta can be given smaller value
@@ -138,13 +133,11 @@ namespace ChessEngine.AI
                         beta = v; 
                     }
 
-                    //If beta is smaller than alpha, we can return from this branch
+                    //If beta is smaller than alpha, don't investigate branch further
                     if (beta < alpha)
                     {
                         return beta;
                     }
-
-                    beta = Math.Min(beta, v);
                 }
             }
             return v;
@@ -154,10 +147,13 @@ namespace ChessEngine.AI
         {
             ChessEngine.Engine.Engine newState = new Engine.Engine();
             newState.ChessBoard = new Board(engine.ChessBoard);
-            byte[] sourcePos = CalculatePiecePosition((byte)(piece));
-            byte[] destinationPos = CalculatePiecePosition(move);
+            byte[] sourcePos = engine.CalculateColumnAndRow((byte)(piece));
+            byte[] destinationPos = engine.CalculateColumnAndRow(move);
 
-            newState.MovePieceForAI(sourcePos[0], sourcePos[1], destinationPos[0], destinationPos[1], true);
+            if (!newState.MovePiece(sourcePos[0], sourcePos[1], destinationPos[0], destinationPos[1]))
+            {
+                return null;
+            }
 
             return newState;
         }
@@ -177,27 +173,6 @@ namespace ChessEngine.AI
             }
 
             return pieceList;
-        }
-
-        private byte[] CalculatePiecePosition(byte position)
-        {
-            byte SquareCount = 7;
-            byte Row = 0;
-
-            while (SquareCount < 64)
-            {
-                if (position <= SquareCount)
-                {
-                    break;
-                }
-
-                Row++;
-                SquareCount += 8;
-            }
-
-            byte Column = (byte)(position - Row * 8);
-
-            return new byte[2] {Column, Row};
         }
 
         private void debugWrite(ChessEngine.Engine.Engine engine)

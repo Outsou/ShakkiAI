@@ -98,6 +98,19 @@ namespace Chess.Forms
                 newGame();
             }
 
+            //Check if checkmate
+            if (chessBoard.IsCheckMate())
+            {
+                if (whosMove == ChessPieceColor.White)
+                {
+                    MessageBox.Show("Black won");
+                }
+                else
+                {
+                    MessageBox.Show("White won");
+                }
+                newGame();
+            }
 
             if (whosMove == ChessPieceColor.White)
             {
@@ -121,20 +134,7 @@ namespace Chess.Forms
 
                 notifyIcon.Visible = true;
 
-                //Check if game is over
-                if (!chessBoard.AIMove())
-                {
-                    if (chessBoard.IsBlackChecked())
-                    {
-                        MessageBox.Show("White won");
-                    }
-                    else
-                    {
-                        MessageBox.Show(staleMate);
-                    }
-
-                    newGame();
-                }
+                chessBoard.AIMove();
             }
         }
 
@@ -149,19 +149,7 @@ namespace Chess.Forms
 
         private void randomMoveButton_Click(object sender, EventArgs e)
         {
-            if (!chessBoard.AIMove())
-            {
-                if (chessBoard.IsWhiteChecked())
-                {
-                    MessageBox.Show("Black won");
-                }
-                else
-                {
-                    MessageBox.Show(staleMate);
-                }
-
-                newGame();
-            }
+            chessBoard.AIMove();
         }
 
     }
