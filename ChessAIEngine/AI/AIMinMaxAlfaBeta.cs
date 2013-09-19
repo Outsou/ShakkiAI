@@ -46,15 +46,15 @@ namespace ChessEngine.AI
             double value = Double.MinValue;
 
             //Find all pieces that can be moved on this turn
-            List<int> pieceList = ReturnAllMovablePieces(engine);
+            List<byte> pieceList = ReturnAllMovablePieces(engine);
 
             //Go through all possible moves
-            foreach (int piece in pieceList)
+            foreach (byte piece in pieceList)
             {
                 foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
                 {
                     //Create the next board stage and pass it to the next node
-                    ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
+                    ChessEngine.Engine.Engine newState = ReturnNewState(engine, piece, move);
 
                     //Invalid move, continue to next move
                     if (newState == null)
@@ -72,7 +72,7 @@ namespace ChessEngine.AI
                         if (depth == maxDepth)
                         {
                             //Back at the root node with a better move than the previous best
-                            byte[] source = engine.CalculateColumnAndRow((byte)(piece));
+                            byte[] source = engine.CalculateColumnAndRow(piece);
                             byte[] destination = engine.CalculateColumnAndRow(move);
                             bestMove.SourceColumn = source[0];
                             bestMove.SourceRow = source[1];
@@ -109,15 +109,15 @@ namespace ChessEngine.AI
             double v = Double.MaxValue;
 
             //Find all pieces that can be moved on this turn
-            List<int> pieceList = ReturnAllMovablePieces(engine);
+            List<byte> pieceList = ReturnAllMovablePieces(engine);
 
             //Go through all possible moves
-            foreach (int piece in pieceList)
+            foreach (byte piece in pieceList)
             {
                 foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
                 {
                     //Create the next board stage and pass it to the next node
-                    ChessEngine.Engine.Engine newState = ReturnNewState(engine, (byte)(piece), move);
+                    ChessEngine.Engine.Engine newState = ReturnNewState(engine, piece, move);
 
                     //Invalid move, continue to next move
                     if (newState == null)
@@ -158,9 +158,9 @@ namespace ChessEngine.AI
             return newState;
         }
 
-        private List<int> ReturnAllMovablePieces(ChessEngine.Engine.Engine engine)
+        private List<byte> ReturnAllMovablePieces(ChessEngine.Engine.Engine engine)
         {
-            List<int> pieceList = new List<int>();
+            List<byte> pieceList = new List<byte>();
             Square[] squares = engine.ChessBoard.Squares;
 
             //Find all pieces that can be moved on this turn
