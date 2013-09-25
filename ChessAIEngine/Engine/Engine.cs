@@ -353,5 +353,10 @@ namespace ChessEngine.Engine
 
             return checkMate;
         }
+
+        public void SetMaxDepth(int depth)
+        {
+            AIblack.SetMaxDepth(depth);
+        }
     }
 }

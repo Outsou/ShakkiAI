@@ -38,15 +38,21 @@ namespace Chess.Forms
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAbout = new System.Windows.Forms.ToolStripDropDownButton();
             this.mnuAboutItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.randomMoveButton = new System.Windows.Forms.ToolStripButton();
             this.pnlClient = new System.Windows.Forms.Panel();
-            this.chessBoard = new Chess.Components.ChessBoard();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.lblTurn = new System.Windows.Forms.Label();
             this.lblWhiteTime = new System.Windows.Forms.Label();
             this.lblBlackTime = new System.Windows.Forms.Label();
             this.TurnTimer = new System.Windows.Forms.Timer(this.components);
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.randomMoveButton = new System.Windows.Forms.ToolStripButton();
+            this.chessBoard = new Chess.Components.ChessBoard();
+            this.depthButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.blackAIDepthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStrip.SuspendLayout();
             this.pnlClient.SuspendLayout();
             this.pnlTop.SuspendLayout();
@@ -59,7 +65,8 @@ namespace Chess.Forms
             this.toolStripSeparator5,
             this.toolStripSeparator7,
             this.mnuAbout,
-            this.randomMoveButton});
+            this.randomMoveButton,
+            this.depthButton});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Size = new System.Drawing.Size(335, 25);
@@ -115,6 +122,16 @@ namespace Chess.Forms
             this.mnuAboutItem.Text = "&About";
             this.mnuAboutItem.Click += new System.EventHandler(this.mnuAboutItem_Click);
             // 
+            // randomMoveButton
+            // 
+            this.randomMoveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.randomMoveButton.Image = ((System.Drawing.Image)(resources.GetObject("randomMoveButton.Image")));
+            this.randomMoveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.randomMoveButton.Name = "randomMoveButton";
+            this.randomMoveButton.Size = new System.Drawing.Size(41, 22);
+            this.randomMoveButton.Text = "Move";
+            this.randomMoveButton.Click += new System.EventHandler(this.randomMoveButton_Click);
+            // 
             // pnlClient
             // 
             this.pnlClient.Controls.Add(this.chessBoard);
@@ -124,16 +141,6 @@ namespace Chess.Forms
             this.pnlClient.Name = "pnlClient";
             this.pnlClient.Size = new System.Drawing.Size(335, 384);
             this.pnlClient.TabIndex = 2;
-            // 
-            // chessBoard
-            // 
-            this.chessBoard.BackColor = System.Drawing.Color.LightGray;
-            this.chessBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chessBoard.Location = new System.Drawing.Point(0, 24);
-            this.chessBoard.Name = "chessBoard";
-            this.chessBoard.Size = new System.Drawing.Size(335, 360);
-            this.chessBoard.TabIndex = 2;
-            this.chessBoard.TurnChanged += new Chess.Components.ChessBoard.TurnChangedHandler(this.chessBoard_TurnChanged);
             // 
             // pnlTop
             // 
@@ -191,15 +198,65 @@ namespace Chess.Forms
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
-            // randomMoveButton
+            // chessBoard
             // 
-            this.randomMoveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.randomMoveButton.Image = ((System.Drawing.Image)(resources.GetObject("randomMoveButton.Image")));
-            this.randomMoveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.randomMoveButton.Name = "randomMoveButton";
-            this.randomMoveButton.Size = new System.Drawing.Size(41, 22);
-            this.randomMoveButton.Text = "Move";
-            this.randomMoveButton.Click += new System.EventHandler(this.randomMoveButton_Click);
+            this.chessBoard.BackColor = System.Drawing.Color.LightGray;
+            this.chessBoard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chessBoard.Location = new System.Drawing.Point(0, 24);
+            this.chessBoard.Name = "chessBoard";
+            this.chessBoard.Size = new System.Drawing.Size(335, 360);
+            this.chessBoard.TabIndex = 2;
+            this.chessBoard.TurnChanged += new Chess.Components.ChessBoard.TurnChangedHandler(this.chessBoard_TurnChanged);
+            // 
+            // depthButton
+            // 
+            this.depthButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.depthButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.blackAIDepthToolStripMenuItem});
+            this.depthButton.Image = ((System.Drawing.Image)(resources.GetObject("depthButton.Image")));
+            this.depthButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.depthButton.Name = "depthButton";
+            this.depthButton.Size = new System.Drawing.Size(76, 22);
+            this.depthButton.Text = "AI Settings";
+            // 
+            // blackAIDepthToolStripMenuItem
+            // 
+            this.blackAIDepthToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4,
+            this.toolStripMenuItem5});
+            this.blackAIDepthToolStripMenuItem.Name = "blackAIDepthToolStripMenuItem";
+            this.blackAIDepthToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.blackAIDepthToolStripMenuItem.Text = "Black AI depth";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "1";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem3.Text = "2";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem4.Text = "3";
+            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem5.Text = "4";
+            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
             // 
             // MainForm
             // 
@@ -244,6 +301,12 @@ namespace Chess.Forms
         private System.Windows.Forms.Label lblWhiteTime;
         private System.Windows.Forms.Label lblTurn;
         private System.Windows.Forms.ToolStripButton randomMoveButton;
+        private System.Windows.Forms.ToolStripDropDownButton depthButton;
+        private System.Windows.Forms.ToolStripMenuItem blackAIDepthToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
 
         
     }

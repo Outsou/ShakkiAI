@@ -12,10 +12,14 @@ namespace ChessEngine.AI
         private AIMove bestMove;
         private int maxDepth;
 
+        public AIMinMaxAlfaBeta()
+        {
+            maxDepth = 3;
+        }
+
         public AIMove GetAIMove(Engine.Engine engine)
         {
             bestMove = new AIMove();
-            maxDepth = 3;
 
             MaxValue(maxDepth, double.MinValue, double.MaxValue, engine);
 
@@ -62,7 +66,7 @@ namespace ChessEngine.AI
                         continue;
                     }
 
-                    value = Math.Max(value, MinValue(depth-1, alpha, beta, newState));
+                    value = MinValue(depth-1, alpha, beta, newState);
 
                     //Check if alpha can be given bigger value
                     if (value > alpha)
@@ -88,7 +92,7 @@ namespace ChessEngine.AI
                     }
                 }
             }
-            return value;
+            return alpha;
         }
 
         private double MinValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
@@ -106,7 +110,7 @@ namespace ChessEngine.AI
                 return boardValue;
             }
 
-            double v = Double.MaxValue;
+            double value = Double.MaxValue;
 
             //Find all pieces that can be moved on this turn
             List<byte> pieceList = ReturnAllMovablePieces(engine);
@@ -125,12 +129,12 @@ namespace ChessEngine.AI
                         continue;
                     }
 
-                    v = Math.Min(v, MaxValue(depth - 1, alpha, beta, newState));
+                    value = MaxValue(depth - 1, alpha, beta, newState);
 
                     //Check if beta can be given smaller value
-                    if (v < beta)
+                    if (value < beta)
                     {
-                        beta = v; 
+                        beta = value; 
                     }
 
                     //If beta is smaller than alpha, don't investigate branch further
@@ -140,7 +144,7 @@ namespace ChessEngine.AI
                     }
                 }
             }
-            return v;
+            return beta;
         }
 
         private ChessEngine.Engine.Engine ReturnNewState(ChessEngine.Engine.Engine engine, byte piece, byte move)
@@ -209,6 +213,11 @@ namespace ChessEngine.AI
                 }
             }
             Debug.WriteLine("\n\n\n");
+        }
+
+        public void SetMaxDepth(int depth)
+        {
+            maxDepth = depth;
         }
     }
 }

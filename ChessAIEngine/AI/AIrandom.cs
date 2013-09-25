@@ -71,5 +71,11 @@ namespace ChessEngine.AI
 
             return AIMove;
         }
+
+
+        public void SetMaxDepth(int depth)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

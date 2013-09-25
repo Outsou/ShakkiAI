@@ -8,5 +8,6 @@ namespace ChessEngine.AI
     interface InterfaceAI
     {
         AIMove GetAIMove(ChessEngine.Engine.Engine engine);
+        void SetMaxDepth(int depth);
     }
 }

@@ -152,5 +152,25 @@ namespace Chess.Forms
             chessBoard.AIMove();
         }
 
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            chessBoard.SetMaxDepth(1);
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            chessBoard.SetMaxDepth(2);
+        }
+
+        private void toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            chessBoard.SetMaxDepth(3);
+        }
+
+        private void toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            chessBoard.SetMaxDepth(4);
+        }
+
     }
 }

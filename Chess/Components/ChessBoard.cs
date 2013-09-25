@@ -546,10 +546,14 @@ namespace Chess.Components
 
         #endregion
 
-
         internal bool IsCheckMate()
         {
             return engine.IsCheckMate();
+        }
+
+        internal void SetMaxDepth(int depth)
+        {
+            engine.SetMaxDepth(depth);
         }
     }
 }
