@@ -1,11 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87EB47DD-FF43-4E49-9360-48F72F96EE6D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessBinStarterKit", "Chess\ChessBinStarterKit.csproj", "{301E27F4-35AD-4955-B7EA-75E2982E0320}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessEngine", "ChessAIEngine\ChessEngine.csproj", "{EE6601BE-F9B4-42B1-B491-1762CBD3CA25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicArrayTests", "DynamicArrayTests\DynamicArrayTests.csproj", "{6109846B-C7C8-43AC-B618-24D657225F04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EE6601BE-F9B4-42B1-B491-1762CBD3CA25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE6601BE-F9B4-42B1-B491-1762CBD3CA25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE6601BE-F9B4-42B1-B491-1762CBD3CA25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6109846B-C7C8-43AC-B618-24D657225F04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6109846B-C7C8-43AC-B618-24D657225F04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6109846B-C7C8-43AC-B618-24D657225F04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6109846B-C7C8-43AC-B618-24D657225F04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

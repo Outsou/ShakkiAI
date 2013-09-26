@@ -12,6 +12,7 @@ namespace ChessEngine.AI
         private AIMove bestMove;
         private int maxDepth;
 
+        //Constructor
         public AIMinMaxAlfaBeta()
         {
             maxDepth = 3;
@@ -57,7 +58,7 @@ namespace ChessEngine.AI
             {
                 foreach (byte move in engine.ChessBoard.Squares[piece].Piece.ValidMoves)
                 {
-                    //Create the next board stage and pass it to the next node
+                    //Create the next board stage
                     ChessEngine.Engine.Engine newState = ReturnNewState(engine, piece, move);
 
                     //Invalid move, continue to next move
@@ -66,6 +67,7 @@ namespace ChessEngine.AI
                         continue;
                     }
 
+                    //Pass parameters to the next node
                     value = MinValue(depth-1, alpha, beta, newState);
 
                     //Check if alpha can be given bigger value

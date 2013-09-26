@@ -1,0 +1,7 @@
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\bin\Debug\DynamicArrayTests.dll
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\bin\Debug\DynamicArrayTests.pdb
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\bin\Debug\ChessEngine.dll
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\bin\Debug\ChessEngine.pdb
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\obj\Debug\DynamicArrayTests.csprojResolveAssemblyReference.cache
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\obj\Debug\DynamicArrayTests.dll
+O:\visualstuudio\ShakkiAI\DynamicArrayTests\obj\Debug\DynamicArrayTests.pdb

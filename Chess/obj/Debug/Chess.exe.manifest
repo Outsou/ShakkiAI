@@ -50,19 +50,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>jLfRybuUg8+c57W40hEmoPyJDUs=</dsig:DigestValue>
+        <dsig:DigestValue>qRGwiLmeLTbrI0aZy0rrBc82S00=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ChessEngine.dll" size="36864">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ChessEngine.dll" size="37376">
       <assemblyIdentity name="ChessEngine" version="0.0.4.4" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>WBS6n5nDJCMT9oi0nTICcO+NNEE=</dsig:DigestValue>
+        <dsig:DigestValue>wxJTsX1ukVWeMTJYBWnzVTR/D5k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
