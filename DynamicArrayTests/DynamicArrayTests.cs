@@ -17,7 +17,7 @@ namespace DynamicArrayTests
         {
             DynamicArray array = new DynamicArray();
 
-            Assert.AreEqual(0, array.Length, "New array has wrong ending index");
+            Assert.AreEqual(0, array.Count, "New array has wrong ending index");
             Assert.AreEqual(startingSize, array.TrueSize, wrongStartingSize);
         }
 

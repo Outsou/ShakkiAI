@@ -51,7 +51,7 @@ namespace ChessEngine.AI
             double value = Double.MinValue;
 
             //Find all pieces that can be moved on this turn
-            List<byte> pieceList = ReturnAllMovablePieces(engine);
+            DynamicArray pieceList = ReturnAllMovablePieces(engine);
 
             //Go through all possible moves
             foreach (byte piece in pieceList)
@@ -115,7 +115,7 @@ namespace ChessEngine.AI
             double value = Double.MaxValue;
 
             //Find all pieces that can be moved on this turn
-            List<byte> pieceList = ReturnAllMovablePieces(engine);
+            DynamicArray pieceList = ReturnAllMovablePieces(engine);
 
             //Go through all possible moves
             foreach (byte piece in pieceList)
@@ -164,9 +164,9 @@ namespace ChessEngine.AI
             return newState;
         }
 
-        private List<byte> ReturnAllMovablePieces(ChessEngine.Engine.Engine engine)
+        private DynamicArray ReturnAllMovablePieces(ChessEngine.Engine.Engine engine)
         {
-            List<byte> pieceList = new List<byte>();
+            DynamicArray pieceList = new DynamicArray();
             Square[] squares = engine.ChessBoard.Squares;
 
             //Find all pieces that can be moved on this turn

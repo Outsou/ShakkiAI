@@ -37,7 +37,7 @@ namespace ChessEngine.AI
             endIndex++;
         }
 
-        public int Length
+        public int Count
         {
             get { return endIndex; }
         }

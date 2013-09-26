@@ -238,6 +238,18 @@ namespace ChessEngine.Engine
             return true;
         }
 
+        public void GenerateValidMoves()
+        {
+            PieceValidMoves.GenerateValidMoves(ChessBoard);
+        }
+
+        private static byte GetBoardIndex(byte BoardColumn, byte BoardRow)
+        {
+            return (byte)(BoardColumn + (BoardRow * 8));
+        }
+
+        #region Methods added by Otto
+
         public bool MovePieceAI()
         {
             AIMove AIMove;
@@ -274,16 +286,6 @@ namespace ChessEngine.Engine
             return ChessBoard.StaleMate;
         }
 
-        public void GenerateValidMoves()
-        {
-            PieceValidMoves.GenerateValidMoves(ChessBoard);
-        }
-
-        private static byte GetBoardIndex(byte BoardColumn, byte BoardRow)
-        {
-            return (byte)(BoardColumn + (BoardRow * 8));
-        }
-
         public byte[] CalculateColumnAndRow(byte position)
         {
             byte SquareCount = 7;
@@ -312,7 +314,7 @@ namespace ChessEngine.Engine
             if ((IsBlackChecked() && WhoseMove == ChessPieceColor.Black) || (IsWhiteChecked() && WhoseMove == ChessPieceColor.White))
             {
                 checkMate = true;
-                List<byte> pieceList = new List<byte>();
+                DynamicArray pieceList = new DynamicArray();
                 Square[] squares = ChessBoard.Squares;
                 Board oldBoard = new Board(ChessBoard);
 
@@ -358,5 +360,7 @@ namespace ChessEngine.Engine
         {
             AIblack.SetMaxDepth(depth);
         }
+
+        #endregion
     }
 }

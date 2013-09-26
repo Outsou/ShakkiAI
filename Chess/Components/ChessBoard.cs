@@ -146,39 +146,6 @@ namespace Chess.Components
             Refresh();
         }
 
-        public bool AIMove()
-        {
-            //If no moves available, return false
-            if (!engine.MovePieceAI())
-            {
-                return false;
-            }
-
-            if (TurnChanged != null)
-            {
-                TurnChanged(engine.WhoseMove);
-            }
-
-            Refresh();
-
-            return true;
-        }
-
-        public bool IsBlackChecked()
-        {
-            return engine.IsBlackChecked();
-        }
-
-        public bool IsWhiteChecked()
-        {
-            return engine.IsWhiteChecked();
-        }
-
-        public bool IsStalemateBy50MoveRule()
-        {
-            return engine.IsStalemateBy50MoveRule();
-        }
-
         public static Column GetColumnFromInt(int column)
         {
             Column retColumnt;
@@ -546,6 +513,8 @@ namespace Chess.Components
 
         #endregion
 
+        #region Methods added by Otto
+
         internal bool IsCheckMate()
         {
             return engine.IsCheckMate();
@@ -555,5 +524,40 @@ namespace Chess.Components
         {
             engine.SetMaxDepth(depth);
         }
+
+        public bool AIMove()
+        {
+            //If no moves available, return false
+            if (!engine.MovePieceAI())
+            {
+                return false;
+            }
+
+            if (TurnChanged != null)
+            {
+                TurnChanged(engine.WhoseMove);
+            }
+
+            Refresh();
+
+            return true;
+        }
+
+        public bool IsBlackChecked()
+        {
+            return engine.IsBlackChecked();
+        }
+
+        public bool IsWhiteChecked()
+        {
+            return engine.IsWhiteChecked();
+        }
+
+        public bool IsStalemateBy50MoveRule()
+        {
+            return engine.IsStalemateBy50MoveRule();
+        }
+
+        #endregion
     }
 }

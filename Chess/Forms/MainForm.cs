@@ -147,6 +147,8 @@ namespace Chess.Forms
             whiteTime = TimeSpan.Zero;
         }
 
+        #region Methods added by Otto
+
         private void randomMoveButton_Click(object sender, EventArgs e)
         {
             chessBoard.AIMove();
@@ -172,5 +174,6 @@ namespace Chess.Forms
             chessBoard.SetMaxDepth(4);
         }
 
+        #endregion
     }
 }
