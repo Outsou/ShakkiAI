@@ -8,20 +8,28 @@ namespace ChessEngine.AI
 {
     class AIMinMaxAlfaBeta : InterfaceAI
     {
-        private AIBoardEvaluator evaluator = new AIBoardEvaluator();
+        private AIBoardEvaluator evaluator;
         private AIMove bestMove;
+        private Stopwatch timer;
         private int maxDepth;
+        private TimeSpan maxTime;
+        private bool overTime;
 
         //Constructor
         public AIMinMaxAlfaBeta()
         {
+            evaluator = new AIBoardEvaluator();
+            timer = new Stopwatch();
             maxDepth = 3;
+            maxTime = new TimeSpan(0, 0, 0);
         }
 
         public AIMove GetAIMove(Engine.Engine engine)
         {
+            overTime = false;
             bestMove = new AIMove();
-
+            timer.Reset();
+            timer.Start();
             MaxValue(maxDepth, double.MinValue, double.MaxValue, engine);
 
             //No legal move was found
@@ -35,6 +43,12 @@ namespace ChessEngine.AI
 
         private double MaxValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
+            //Check if stalemate
+            if (engine.IsStalemateBy50MoveRule())
+            {
+                return 0;
+            }
+
             //Check if checkmate
             if (engine.IsCheckMate())
             {
@@ -42,8 +56,13 @@ namespace ChessEngine.AI
             }
 
             //A leaf node, return value of board state
-            if (depth == 0)
+            if ((depth == 0 && maxDepth != 0) || (maxTime.Seconds != 0 && timer.Elapsed > maxTime))
             {
+                if (maxTime.Seconds != 0 && timer.Elapsed > maxTime)
+                {
+                    overTime = true;
+                }
+
                 double boardValue = evaluator.ValuateBoard(engine.ChessBoard.Squares);
                 return boardValue;
             }
@@ -92,6 +111,16 @@ namespace ChessEngine.AI
                     {
                         return alpha;
                     }
+
+                    if (overTime)
+                    {
+                        break;
+                    }
+                }
+
+                if (overTime)
+                {
+                    break;
                 }
             }
             return alpha;
@@ -99,6 +128,12 @@ namespace ChessEngine.AI
 
         private double MinValue(int depth, double alpha, double beta, ChessEngine.Engine.Engine engine)
         {
+            //Check if stalemate
+            if (engine.IsStalemateBy50MoveRule())
+            {
+                return 0;
+            }
+
             //Check if checkmate
             if (engine.IsCheckMate())
             {
@@ -106,8 +141,13 @@ namespace ChessEngine.AI
             }
 
             //A leaf node, return value of board state
-            if (depth == 0)
+            if ((depth == 0 && maxDepth != 0) || (maxTime.Seconds != 0) && timer.Elapsed > maxTime)
             {
+                if (maxTime.Seconds != 0 && timer.Elapsed > maxTime)
+                {
+                    overTime = true;
+                }
+
                 double boardValue = evaluator.ValuateBoard(engine.ChessBoard.Squares);
                 return boardValue;
             }
@@ -144,6 +184,16 @@ namespace ChessEngine.AI
                     {
                         return beta;
                     }
+
+                    if (overTime)
+                    {
+                        break;
+                    }
+                }
+
+                if (overTime)
+                {
+                    break;
                 }
             }
             return beta;
@@ -220,6 +270,11 @@ namespace ChessEngine.AI
         public void SetMaxDepth(int depth)
         {
             maxDepth = depth;
+        }
+
+        public void SetMaxTime(int time)
+        {
+            maxTime = new TimeSpan(0, 0, time);
         }
     }
 }

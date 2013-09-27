@@ -9,5 +9,6 @@ namespace ChessEngine.AI
     {
         AIMove GetAIMove(ChessEngine.Engine.Engine engine);
         void SetMaxDepth(int depth);
+        void SetMaxTime(int time);
     }
 }

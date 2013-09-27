@@ -361,6 +361,11 @@ namespace ChessEngine.Engine
             AIblack.SetMaxDepth(depth);
         }
 
+        public void SetMaxTime(int time)
+        {
+            AIblack.SetMaxTime(time);
+        }
+
         #endregion
     }
 }

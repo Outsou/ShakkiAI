@@ -154,24 +154,14 @@ namespace Chess.Forms
             chessBoard.AIMove();
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void maxDepthUpDown_ValueChanged(object sender, EventArgs e)
         {
-            chessBoard.SetMaxDepth(1);
+            chessBoard.SetMaxDepth((int)(maxDepthUpDown.Value));
         }
 
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        private void maxTimeUpDown_ValueChanged(object sender, EventArgs e)
         {
-            chessBoard.SetMaxDepth(2);
-        }
-
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            chessBoard.SetMaxDepth(3);
-        }
-
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            chessBoard.SetMaxDepth(4);
+            chessBoard.SetMaxTime((int)(maxTimeUpDown.Value));
         }
 
         #endregion

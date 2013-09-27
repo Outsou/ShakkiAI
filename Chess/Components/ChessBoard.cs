@@ -525,6 +525,11 @@ namespace Chess.Components
             engine.SetMaxDepth(depth);
         }
 
+        internal void SetMaxTime(int time)
+        {
+            engine.SetMaxTime(time);
+        }
+
         public bool AIMove()
         {
             //If no moves available, return false

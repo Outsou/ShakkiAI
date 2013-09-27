@@ -72,10 +72,16 @@ namespace ChessEngine.AI
             return AIMove;
         }
 
-
+        //Not used in this AI
         public void SetMaxDepth(int depth)
         {
-            throw new NotImplementedException();
+            return;
+        }
+
+        //Not used in this AI
+        public void SetMaxTime(int time)
+        {
+            return;
         }
     }
 }
