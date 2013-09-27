@@ -37,6 +37,50 @@ namespace ChessEngine.AI
             endIndex++;
         }
 
+        public void Remove(byte item)
+        {
+            if (endIndex == 0)
+                return;
+
+            int i;
+            bool itemFound = false;
+
+            for (i = 0; i < endIndex; i++)
+            {
+                if (array[i] == item)
+                {
+                    itemFound = true;
+                    break;
+                }
+            }
+
+            if (!itemFound)
+                return;
+
+            byte[] newArray = new byte[array.Length];
+
+            for (int j = 0; j < i; j++)
+            {
+                newArray[j] = array[j];
+            }
+
+            for (int j = i + 1; j < endIndex; j++)
+            {
+                newArray[j-1] = array[j];
+            }
+
+            array = newArray;
+            endIndex -= 1;
+        }
+
+        public void RemoveLast()
+        {
+            if (endIndex > 0)
+            {
+                endIndex -= 1;
+            }
+        }
+
         public int Count
         {
             get { return endIndex; }
