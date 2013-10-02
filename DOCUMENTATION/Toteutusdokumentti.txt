@@ -1,0 +1,54 @@
+Latasin ohjelman toteutusta varten valmiin shakkiohjelman:
+http://www.chessbin.com/page/Chess-Game-Starer-Kit.aspx
+
+Kaikki itse koodaamani luokat lˆytyv‰t kansiosta ShakkiAI/ChessAIEngine/AI tai solutionissa ChessEngine/AI. Lis‰ksi projekti DynamicArrayTests on kokonaan itse koodaamani.
+Kaikki valmiiseen shakkipakettiin lis‰‰m‰ni metodit lˆytyv‰t luokan alaosasta regionissa "Methods added by Otto". Metodeja olen lis‰nnyt luokkiin Engine, ChessBoard ja MainForm.
+
+
+
+Rakenne:
+Ohjelma k‰ytt‰‰ windows forms ikkunaa, joka sis‰lt‰‰ shakkilaudan (ChessBoard.cs). Shakkilauta k‰ytt‰‰ siirtojen tekemiseen ja pelitilanteen tarkastamiseen Engine‰. Engine taas k‰ytt‰‰ koodaamani teko‰ly rajapinnan kautta teko‰ly‰ni. Teko‰ly kutsuu viel‰ luokkaa AIBoardEvaluator arvioimaan pelitilanteen arvo.
+Eli kun halutaan tehd‰ siirto teko‰ly‰ k‰ytt‰en, kutsupino on MainForm -> Chessboard -> Engine-> AIMinMaxAlfaBeta -> AIBoardEvaluator
+
+
+
+Aikavaativuusanalyysi:
+
+Tarkastellaan algoritmin pseudokoodia.
+
+MaxArvo(syvyys, alpha, beta, siirto)
+	if (syvyys == 0) return peliTilanteenArvo()    //Ollaan lehtisolmussa
+	
+	arvo = -‰‰retˆn
+	
+	for (kaikille maxaavan pelaajan siirroille siirto)
+		arvo = MinArvo(syvyys-1, apha, beta, siirto)
+		if (value > alpha)
+			alpha = value
+			if (ollaan juurisolmussa) parasSiirto = siirto
+			
+		if (alpha > beta) return alpha //Voidaan lopettaa haaran tutkiminen
+	
+	return alpha
+	
+MinArvo(syvyys, alpha, beta, siirto)
+	if (syvyys == 0) return peliTilanteenArvo()    //Ollaan lehtisolmussa
+	
+	arvo = +‰‰retˆn
+	
+	for (kaikille minivoivan pelaajan siirroille siirto)
+		arvo = MaxArvo(syvyys-1, apha, beta, siirto)
+		if (value < beta)
+			beta = value
+			
+		if (alpha > beta) return beta //Voidaan lopettaa haaran tutkiminen
+	
+	return beta
+	
+Metodi peliTilanteenArvo k‰y vain kaikki nappulat l‰pi, joita on maksimissaan 32, eli pahin aikavaativuus on O(32) eli voidaan ajatella, ett‰ sen aikavaativuus on vakio O(1), eik‰ sit‰ tarvitse huomioida analyysiss‰.
+Pseudokoodista n‰hd‰‰n, ett‰ jokaisessa solmussa on for-looppi, jossa syntyy rekursiivinen kutsupino. Pahimmassa mahdollisessa tapauksessa jokaisessa solmussa k‰yd‰‰n l‰pi kaikki mahdolliset siirrot. T‰llˆin esimerkiksi jos puun maksimisyvyydeksi on asetettu 3 ja b on mahdollisten siirtojen m‰‰r‰ niin aikavaativuus on O(b*b*b) eli (b^3). Saadaan siis kaava (b^d), jossa d on puun maksimisyvyys. On siis p‰‰sty tavoitteeseen aikavaativuuden suhteen.
+
+
+Tilavaativuusanalyysi:
+
+Kaiken MaxArvon ja MinArvon sis‰ll‰ olevan voidaan ajatella olevan vakiokokoista, koska ne varaavat aina saman verran muistia syˆtteest‰ riippumatta. Siisp‰ tilavaativuus riippuu siit‰, kuinka syv‰lle rekursiossa menn‰‰n. Kuinka syv‰lle rekursiossa menn‰‰n taas riippuu siit‰, mik‰ puun maksimisyvyydeksi on m‰‰ritelty, eli tilavaativuus on O(h), miss‰ h on m‰‰ritelty maksimikorkeus.

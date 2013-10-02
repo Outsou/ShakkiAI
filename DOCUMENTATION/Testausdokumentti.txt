@@ -1,0 +1,11 @@
+Automaattinen testaus on tehty vain toteuttamalleni dynaamiselle taulukolle (DynamicArray.cs), koska en nähnyt mielekkäänä tehdä sitä itse tekoälyalgoritmille.
+Testit löytyvät projektista DynamicArrayTests.
+
+Testit:
+-0 syötettä, tehdään vain uusi DynamicArray
+-lisätään 5 satunnaista numeroa taulukkoon
+-lisätään miljoona satunnaista numeroa taulukkoon
+-lisätään 5 satunnaista numeroa taulukkoon ja poistetaan viimeinen
+-lisätään miljoona satunnaista numeroa taulukkoon ja poistetaan viimeinen
+-lisätään 5 numeroa taulukkoon ja poistetaan kolmas
+-lisätään miljoona numeroa ja poistetaan 3 niistä

@@ -134,6 +134,34 @@ namespace DynamicArrayTests
             }
         }
 
+        public void AddMillionRandomNumbersToArrayAndRemove3fThem()
+        {
+            array = new DynamicArray();
+            byte[] checkArray = AddRandomNumbers(million, array);
+
+            int index1 = randomGenerator.Next(0, 333333);
+            int index2 = randomGenerator.Next(333333, 666666);
+            int index3 = randomGenerator.Next(666666, 1000000);
+
+            array.Remove(checkArray[index1]);
+            array.Remove(checkArray[index2]);
+            array.Remove(checkArray[index3]);
+
+            int i = 0;
+
+            foreach (byte number in array)
+            {
+                while (i == index1 || i == index2 || i == index3)
+                {
+                    i++;
+                }
+
+                Assert.AreEqual(checkArray[i], number);
+
+                i++;
+            }
+        }
+
         private byte[] AddRandomNumbers(int amount, DynamicArray array)
         {
             byte[] arrayOfGeneratedNumbers = new byte[amount];

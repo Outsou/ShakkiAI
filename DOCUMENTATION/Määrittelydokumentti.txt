@@ -1,0 +1,26 @@
+//////////////////////
+///TEKOÄLY SHAKKIIN///
+//////////////////////
+
+Ratkaisu: 
+Minmax alfa-beta-karsinta
+
+
+Aikavaativuus:
+Algoritmin aikavaativuus on O(b^d), missä b on mahdollisten siirtojen määrä ja d on algoritmille asetettu pelipuun maksimisyvyys.
+
+
+Tilavaativuus:
+Algoritmi käy pelipuuta läpi syvyyssuunnassa, joten sen tilavaativuus on O(h), missä h on algoritmille asetettu pelipuun maksimisyvyys.
+
+Lähteet:
+http://www.chessbin.com/page/Chess-Game-Starer-Kit.aspx
+https://jyx.jyu.fi/dspace/bitstream/handle/123456789/12488/URN_NBN_fi_jyu-20054.pdf
+http://www.cs.helsinki.fi/u/ttonteri/ai/ai-fall11-slides3.pdf
+
+
+Lisäksi toteutin apuvälineeksi dynaamisen taulukon, jonka aikavaativuus on alkioita lisätessä ja poistettaessa O(n), erikoistapauksena viimeisen alkion poisto, joilloin aikavaativuus on O(1). Tilavaativuus on O(n).
+Käytännössä kuitenkin käytän taulukkoa ohjelmassa vain yhden pelaajan nappuloiden muistamiseen, joita on maksimissaan 16. Siispä tilavaativuus ja aikavaativuus ovat molemmat ohjelmassani O(1), koska olen asettanut taulukon alkukooksi 16.
+
+Lähde:
+http://en.wikipedia.org/wiki/Dynamic_array
